@@ -2,7 +2,6 @@
 Manage tasks for projects to optimize organization and get your project done quicker. Project written in SvelteKit.
 
 ## Features
-Currently a non-existant feature set. To be worked on over time
 
 ### Current
 - Browse example app
