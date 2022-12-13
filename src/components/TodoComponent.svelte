@@ -8,12 +8,12 @@
 
     let boardsData: Board[];
 
-    boards.subscribe((data: Board[]) => {
+    boards.subscribe((data: Board[]) => { //Updates local data when store is updated
         boardsData = data;
     })
 
-    function removeSelf() {
-        switch(givenTodo.state) {
+    function removeSelf() { //Removes todo from array
+        switch(givenTodo.state) { //Finds array Todo is in
             case TodoState.NotStarted:
                 boardsData[0].data.splice(boardsData[0].data.indexOf(givenTodo), 1)
                 break;
@@ -24,17 +24,17 @@
                 boardsData[2].data.splice(boardsData[2].data.indexOf(givenTodo), 1)
                 break;
         }
-        boards.set(boardsData)
+        boards.set(boardsData) //Sets boards store to new data
     }
 
-    function moveToInProgress() {
-        boardsData[0].data.splice(boardsData[0].data.indexOf(givenTodo), 1)
-        boardsData[1].data.push(givenTodo)
-        givenTodo.state = TodoState.InProgress
-        boards.set(boardsData)
+    function moveToInProgress() { //Moves todo to completed array
+        boardsData[0].data.splice(boardsData[0].data.indexOf(givenTodo), 1) //Finds Todo in old array and removes it
+        boardsData[1].data.push(givenTodo) //Moves todo to new array
+        givenTodo.state = TodoState.InProgress //Update state of todo
+        boards.set(boardsData) //Update store to reflect updated data
     }
 
-    function moveToCompleted () {
+    function moveToCompleted () { //Moves Todo to "Completed" array
         boardsData[1].data.splice(boardsData[1].data.indexOf(givenTodo), 1)
         boardsData[2].data.push(givenTodo)
         givenTodo.state = TodoState.Complete
@@ -44,16 +44,17 @@
 
 <div class="group todo bg-gray-400 rounded-md flex flex-col items-center p-3 min-w-full">
     <div class="self-end flex gap-2">
-        {#if givenTodo.state == TodoState.NotStarted}
+        {#if givenTodo.state == TodoState.NotStarted} <!--Button to move task to "In Progress"-->
             <div class="opacity-0 bg-orange-400 p-1 rounded-lg cursor-pointer group-hover:opacity-100" title="Set to In Progress" on:click={moveToInProgress} on:keydown={moveToInProgress}>
 
             </div>
         {/if}
-        {#if givenTodo.state == TodoState.InProgress}
+        {#if givenTodo.state == TodoState.InProgress} <!--Button to move task to "Complete"-->
             <div class="opacity-0 bg-green-400 p-1 rounded-lg cursor-pointer group-hover:opacity-100" title="Set to Completed" on:click={moveToCompleted} on:keydown={moveToCompleted}>
 
             </div>
         {/if}
+        <!-- Button to delete Todo -->
         <div class="opacity-0 bg-red-500 rounded-lg p-1 text-xs cursor-pointer group-hover:opacity-100" on:click={removeSelf} on:keydown={removeSelf} title="Remove Todo">
         </div>
     </div>

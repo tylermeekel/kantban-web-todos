@@ -2,23 +2,20 @@
 	import showCreateTodoState from "../stores/StateStore";
     import boards from '../stores/BoardStore'
     import CreateTodo from "../components/CreateTodo.svelte";
-	import TodoComponent from "../components/TodoComponent.svelte";
     import type { Board } from "../classes/Board";
 	import BoardComponent from "../components/BoardComponent.svelte";
 	import { browser } from "$app/environment";
 
     let boardsData: Array<Board>;
-
     let showCreateTodo:boolean;
 
-    if(browser){
-        if(localStorage.getItem('data')){
-            console.log('dataasdasd')
-            boards.set(JSON.parse(localStorage.getItem('data') || '{}'));
+    if(browser){ //Make sure these lines are only processed locally and not on the server
+        if(localStorage.getItem('data')){ //Check for any local data
+            boards.set(JSON.parse(localStorage.getItem('data') || '{}')); //Update boards to reflect local data if it exists
         }
     }
 
-    boards.subscribe((data: Board[]) => {
+    boards.subscribe((data: Board[]) => { //Keeps data in sync with store
         boardsData = data;
     })
 
@@ -30,8 +27,8 @@
         showCreateTodoState.set(true)
     }
 
-    function save() {
-        if(browser){
+    export function save() { //Function for saving data to localStorage
+        if(browser){ 
             let jsonData = JSON.stringify(boardsData)
             localStorage.setItem('data', jsonData)
         }
@@ -47,7 +44,7 @@
 <div class="h-full w-screen flex flex-col">
     <header class=" h-20 w-screen bg-gray-200 flex items-center p-1 drop-shadow-md shadow-stone-900 justify-between">
         <h1 class="text-3xl ml-2">Kan(t)ban</h1>
-        <button class="mr-2 bg-gray-600 p-2 rounded-lg text-gray-100" on:click={save}>
+        <button class="mr-2 bg-gray-900 p-2 rounded-lg text-gray-100" on:click={save}>
             Save
         </button>
     </header>

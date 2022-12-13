@@ -3,21 +3,21 @@
     import type { Board } from '../classes/Board'
     import { TodoState } from '../classes/Todo'
     import boards from "../stores/BoardStore";
-    import { fly, slide } from "svelte/transition";
+    import { slide } from "svelte/transition";
 
-    function closeShowCreateTodo() {
+    function closeShowCreateTodo() { //Updates showCreateTodo state to close window
         showCreateTodoState.set(false)
     }
 
     let boardsData: Board[];
-    let title = ""
-    let desc = ""
+    let title: string;
+    let desc: string;
 
-    boards.subscribe((data: Board[]) => {
+    boards.subscribe((data: Board[]) => { //Keeps local data in sync with data in store
         boardsData = data;
     })
 
-    const handleSubmit = () => {
+    const handleSubmit = () => { //Creates new Todo given data and pushes Todo to Not Started array
         if(title.length > 0 && desc.length > 0){
             boardsData[0].data.push({ title: title, description: desc, state: TodoState.NotStarted})
             boards.set(boardsData)

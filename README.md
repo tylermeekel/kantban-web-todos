@@ -6,11 +6,11 @@ Manage tasks for projects to optimize organization and get your project done qui
 ### Current
 - Create and delete todos
 - Allow todos to be moved around
+- Save current workflow to localStorage
 
 ### Planned
 - Create and delete boards
 - Create multiple project spaces
-- Save data to browser localStorage
 - Clean up source code
 
 ### Nice-to-haves

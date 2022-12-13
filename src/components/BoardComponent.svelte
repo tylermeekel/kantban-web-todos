@@ -1,3 +1,4 @@
+<!--Currently exists solely for adding support for adding new boards in the future-->
 <script lang="ts">
     import type { Board } from "src/classes/Board";
 	import TodoComponent from "./TodoComponent.svelte";
