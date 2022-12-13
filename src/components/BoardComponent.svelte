@@ -5,7 +5,7 @@
     export let board: Board;
 </script>
 
-<div class="board min-w-fit min-h-96 flex-1 flex flex-col items-center rounded-2xl border-b-4 border-gray-700 overflow-y-scroll gap-3">
+<div class="board min-w-fit min-h-96 flex-1 flex flex-col items-center rounded-2xl border-b-4 border-gray-700 overflow-y-scroll gap-3 hidescroll">
     <h1 class="text-gray-900 text-xl font-bold">
         {board.title}
     </h1>
@@ -15,3 +15,13 @@
         {/each}
     </div>
 </div>
+
+<style>
+    .hidescroll::-webkit-scrollbar {
+        display: none; /* for Chrome, Safari, and Opera */
+    }
+    .hidescroll {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+</style>

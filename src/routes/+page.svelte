@@ -48,7 +48,7 @@
             Save
         </button>
     </header>
-    <main class="w-screen bg-gray-200 flex-1 flex gap-8 px-8 pt-8 overflow-x-scroll">
+    <main class="w-screen bg-gray-200 flex-1 flex gap-8 px-8 pt-8 overflow-x-scroll hidescroll">
         {#each boardsData as board}
             <BoardComponent board={board}/>
         {/each}
@@ -64,4 +64,11 @@
 
 
 <style>
+    .hidescroll::-webkit-scrollbar {
+        display: none; /* for Chrome, Safari, and Opera */
+    }
+    .hidescroll {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
 </style>
