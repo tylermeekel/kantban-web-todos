@@ -1,17 +1,13 @@
+import type { Board } from "./Board";
+
 export enum TodoState {
     NotStarted,
     InProgress,
-    Done
+    Complete
 }
 
-export class Todo {
+export type Todo = {
     title: string;
     description: string;
     state: TodoState;
-
-    constructor(title: string, description: string, state: TodoState) {
-        this.title = title;
-        this.description = description;
-        this.state = state;
-    }
 }

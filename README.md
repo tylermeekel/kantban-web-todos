@@ -4,21 +4,19 @@ Manage tasks for projects to optimize organization and get your project done qui
 ## Features
 
 ### Current
-- Browse example app
-- Open Todo panel
+- Create and delete todos
+- Allow todos to be moved around
 
 ### Planned
 - Create and delete boards
-- Create and delete todos
-- Allow todos to be moved around
 - Create multiple project spaces
 - Save data to browser localStorage
-- Clean up codebase
+- Clean up source code
 
 ### Nice-to-haves
 - Server Side Rendering
 - Backend support, database driven by Firebase
-- Login support to access boards on multiple spaces
+- Login support to access boards on multiple devices
 - Mobile support
 - Mobile app
 

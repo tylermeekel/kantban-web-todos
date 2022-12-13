@@ -1,10 +1,17 @@
 <script lang="ts">
 	import showCreateTodoState from "../stores/StateStore";
+    import boards from '../stores/BoardStore'
     import CreateTodo from "../components/CreateTodo.svelte";
 	import TodoComponent from "../components/TodoComponent.svelte";
+    import type { Board } from "../classes/Board";
+	import BoardComponent from "../components/BoardComponent.svelte";
 
-    let boards = ["Not Started", "In Progress", "Complete", "Yello", "Brello", "Schmello"];
+    let boardsData: Array<Board>;
     let showCreateTodo:boolean;
+
+    boards.subscribe((d: Board[]) => {
+        boardsData = d;
+    })
 
     showCreateTodoState.subscribe(data => { //Pulls data from store to use for visibility of Todo dialogue box
         showCreateTodo = data;
@@ -19,26 +26,13 @@
     <CreateTodo />
 {/if}
 
-<div class="max-h-screen w-screen flex flex-col">
-    <header class="h-20 w-screen bg-gray-200 flex items-center p-4 drop-shadow-md shadow-stone-900">
-        <h1 class="text-4xl text-zinc-900 font-extralight">
-            Kan(<span class="text-3xl">t</span>)ban
-        </h1>
+<div class="h-full w-screen flex flex-col">
+    <header class=" h-20 w-screen bg-gray-200 flex items-center p-1 drop-shadow-md shadow-stone-900">
+        <h1 class="text-3xl ml-2">Kan(t)ban</h1>
     </header>
-    <main class="w-screen bg-gray-200 flex-1 flex gap-8 px-8 pt-8 overflow-x-scroll max-h-min">
-        {#each boards as board}
-            <div class="board min-w-fit max-h-96 flex-1 flex flex-col items-center p-3 rounded-2xl border-b-4 border-gray-700 overflow-y-scroll gap-3">
-                <h1 class="text-gray-900 text-xl font-bold">
-                    {board}
-                </h1>
-                <TodoComponent />
-                <TodoComponent />
-                <TodoComponent />
-                <TodoComponent />
-                <TodoComponent />
-                <TodoComponent />
-                <TodoComponent />
-            </div>
+    <main class="w-screen bg-gray-200 flex-1 flex gap-8 px-8 pt-8 overflow-x-scroll">
+        {#each boardsData as board}
+            <BoardComponent board={board}/>
         {/each}
     </main>
     <div class="bg-gray-200 flex justify-center items-center py-3">
@@ -52,7 +46,4 @@
 
 
 <style>
-    .board {
-        max-height: 100%;
-    }
 </style>

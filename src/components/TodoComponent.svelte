@@ -1,13 +1,65 @@
 <script lang="ts">
-	//import type { Todo } from "src/classes/Todo";
+	import type { Board } from "src/classes/Board";
+	import { TodoState, type Todo } from "../classes/Todo";
+    import boards from "../stores/BoardStore";
 
 
-    //export let data: Todo;
+    export let givenTodo: Todo;
+
+    let boardsData: Board[];
+
+    boards.subscribe((data: Board[]) => {
+        boardsData = data;
+    })
+
+    function removeSelf() {
+        switch(givenTodo.state) {
+            case TodoState.NotStarted:
+                boardsData[0].data.splice(boardsData[0].data.indexOf(givenTodo), 1)
+                break;
+            case TodoState.InProgress: 
+                boardsData[1].data.splice(boardsData[1].data.indexOf(givenTodo), 1)
+                break;
+            case TodoState.Complete:
+                boardsData[2].data.splice(boardsData[2].data.indexOf(givenTodo), 1)
+                break;
+        }
+        boards.set(boardsData)
+    }
+
+    function moveToInProgress() {
+        boardsData[0].data.splice(boardsData[0].data.indexOf(givenTodo), 1)
+        boardsData[1].data.push(givenTodo)
+        givenTodo.state = TodoState.InProgress
+        boards.set(boardsData)
+    }
+
+    function moveToCompleted () {
+        boardsData[1].data.splice(boardsData[1].data.indexOf(givenTodo), 1)
+        boardsData[2].data.push(givenTodo)
+        givenTodo.state = TodoState.Complete
+        boards.set(boardsData)
+    }
 </script>
 
-<div class="todo bg-gray-400 rounded-md flex flex-col items-center p-3 min-w-full">
-    <h3 class="text-gray-800 font-black">Title 1</h3>
-    <p class="line-clamp text-gray-800">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<div class="group todo bg-gray-400 rounded-md flex flex-col items-center p-3 min-w-full">
+    <div class="self-end flex gap-2">
+        {#if givenTodo.state == TodoState.NotStarted}
+            <div class="opacity-0 bg-orange-400 p-1 rounded-lg cursor-pointer group-hover:opacity-100" title="Set to In Progress" on:click={moveToInProgress} on:keydown={moveToInProgress}>
+
+            </div>
+        {/if}
+        {#if givenTodo.state == TodoState.InProgress}
+            <div class="opacity-0 bg-green-400 p-1 rounded-lg cursor-pointer group-hover:opacity-100" title="Set to Completed" on:click={moveToCompleted} on:keydown={moveToCompleted}>
+
+            </div>
+        {/if}
+        <div class="opacity-0 bg-red-500 rounded-lg p-1 text-xs cursor-pointer group-hover:opacity-100" on:click={removeSelf} on:keydown={removeSelf} title="Remove Todo">
+        </div>
+    </div>
+    <h3 class="text-gray-800 font-black">{givenTodo.title}</h3>
+    <p class="line-clamp text-gray-800 max-w-full text-base">{givenTodo.description}</p>
+    
 </div>
 
 <style>
